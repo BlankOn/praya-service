@@ -1,0 +1,21 @@
+[Unit]
+Description=Praya Service Daemon - Wellness platform
+Documentation=https://github.com/herpiko/praya
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/praya-service
+Restart=on-failure
+RestartSec=5
+
+# Note: Requires WAYLAND_DISPLAY and XDG_RUNTIME_DIR in systemd user environment
+# Run: systemctl --user import-environment WAYLAND_DISPLAY XDG_RUNTIME_DIR
+
+# Resource limits
+MemoryMax=512M
+CPUQuota=50%
+
+[Install]
+WantedBy=default.target
