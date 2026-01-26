@@ -5,4 +5,4 @@ Praya provides various services for health and productivity monitoring.
 Each service runs independently and can be enabled/disabled as needed.
 """
 
-__version__ = "1.0.7"
+__version__ = "1.0.8"

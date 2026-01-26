@@ -89,6 +89,8 @@ class PostureService(DBusServiceMixin):
                 <method name="GetUserPosture">
                     <arg direction="out" type="s" name="status"/>
                     <arg direction="out" type="d" name="score"/>
+                    <arg direction="out" type="d" name="tolerance"/>
+                    <arg direction="out" type="d" name="alert_delay"/>
                 </method>
                 <method name="Recalibrate"/>
                 <signal name="PostureChanged">
@@ -173,7 +175,12 @@ class PostureService(DBusServiceMixin):
 
     def _dbus_get_user_posture(self, params, invocation):
         """Handle GetUserPosture D-Bus method."""
-        result = GLib.Variant("(sd)", (self.status.value, self.current_severity))
+        result = GLib.Variant("(sddd)", (
+            self.status.value,
+            self.current_severity,
+            self.calibration.tolerance,
+            self.calibration.alert_delay
+        ))
         invocation.return_value(result)
 
     def _dbus_recalibrate(self, params, invocation):
