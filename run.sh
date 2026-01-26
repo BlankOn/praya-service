@@ -58,10 +58,13 @@ fi
 
 echo "All dependencies found."
 echo ""
-echo "Starting Praya Posture Service..."
-echo "  - Press Escape during calibration to skip"
+echo "Starting Praya Service Daemon..."
 echo "  - Press Ctrl+C to quit"
+echo ""
+echo "To enable posture monitoring, run in another terminal:"
+echo "  dbus-send --session --dest=com.github.blankon.praya \\"
+echo "    /com/github/blankon/Praya com.github.blankon.Praya.EnableService string:'posture'"
 echo ""
 
 export PYTHONPATH="${SCRIPT_DIR}:${PYTHONPATH}"
-exec python3 -m praya.services.posture "$@"
+exec python3 -m praya.daemon "$@"

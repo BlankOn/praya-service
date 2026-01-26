@@ -5,46 +5,51 @@
 
 override_dh_auto_install:
 	# Create directories
-	install -d $(CURDIR)/debian/praya-posture/usr/share/praya
-	install -d $(CURDIR)/debian/praya-posture/usr/share/praya/praya
-	install -d $(CURDIR)/debian/praya-posture/usr/share/praya/praya/core
-	install -d $(CURDIR)/debian/praya-posture/usr/share/praya/praya/services
-	install -d $(CURDIR)/debian/praya-posture/usr/share/praya/praya/services/posture
-	install -d $(CURDIR)/debian/praya-posture/usr/bin
-	install -d $(CURDIR)/debian/praya-posture/usr/lib/systemd/user
-	install -d $(CURDIR)/debian/praya-posture/usr/share/applications
-	install -d $(CURDIR)/debian/praya-posture/usr/share/icons/hicolor/scalable/apps
+	install -d $(CURDIR)/debian/praya-service/usr/share/praya
+	install -d $(CURDIR)/debian/praya-service/usr/share/praya/praya
+	install -d $(CURDIR)/debian/praya-service/usr/share/praya/praya/core
+	install -d $(CURDIR)/debian/praya-service/usr/share/praya/praya/services
+	install -d $(CURDIR)/debian/praya-service/usr/share/praya/praya/services/posture
+	install -d $(CURDIR)/debian/praya-service/usr/bin
+	install -d $(CURDIR)/debian/praya-service/usr/lib/systemd/user
+	install -d $(CURDIR)/debian/praya-service/usr/share/dbus-1/services
+	install -d $(CURDIR)/debian/praya-service/usr/share/applications
+	install -d $(CURDIR)/debian/praya-service/usr/share/icons/hicolor/scalable/apps
 
 	# Install praya core package
-	install -m 644 praya/__init__.py $(CURDIR)/debian/praya-posture/usr/share/praya/praya/
-	install -m 644 praya/core/__init__.py $(CURDIR)/debian/praya-posture/usr/share/praya/praya/core/
-	install -m 644 praya/core/service.py $(CURDIR)/debian/praya-posture/usr/share/praya/praya/core/
-	install -m 644 praya/core/dbus.py $(CURDIR)/debian/praya-posture/usr/share/praya/praya/core/
-	install -m 644 praya/core/notifications.py $(CURDIR)/debian/praya-posture/usr/share/praya/praya/core/
+	install -m 644 praya/__init__.py $(CURDIR)/debian/praya-service/usr/share/praya/praya/
+	install -m 644 praya/daemon.py $(CURDIR)/debian/praya-service/usr/share/praya/praya/
+	install -m 644 praya/core/__init__.py $(CURDIR)/debian/praya-service/usr/share/praya/praya/core/
+	install -m 644 praya/core/service.py $(CURDIR)/debian/praya-service/usr/share/praya/praya/core/
+	install -m 644 praya/core/dbus.py $(CURDIR)/debian/praya-service/usr/share/praya/praya/core/
+	install -m 644 praya/core/notifications.py $(CURDIR)/debian/praya-service/usr/share/praya/praya/core/
 
 	# Install praya services package
-	install -m 644 praya/services/__init__.py $(CURDIR)/debian/praya-posture/usr/share/praya/praya/services/
+	install -m 644 praya/services/__init__.py $(CURDIR)/debian/praya-service/usr/share/praya/praya/services/
 
 	# Install posture service
-	install -m 644 praya/services/posture/__init__.py $(CURDIR)/debian/praya-posture/usr/share/praya/praya/services/posture/
-	install -m 644 praya/services/posture/service.py $(CURDIR)/debian/praya-posture/usr/share/praya/praya/services/posture/
-	install -m 644 praya/services/posture/camera.py $(CURDIR)/debian/praya-posture/usr/share/praya/praya/services/posture/
-	install -m 644 praya/services/posture/calibration.py $(CURDIR)/debian/praya-posture/usr/share/praya/praya/services/posture/
+	install -m 644 praya/services/posture/__init__.py $(CURDIR)/debian/praya-service/usr/share/praya/praya/services/posture/
+	install -m 644 praya/services/posture/service.py $(CURDIR)/debian/praya-service/usr/share/praya/praya/services/posture/
+	install -m 644 praya/services/posture/camera.py $(CURDIR)/debian/praya-service/usr/share/praya/praya/services/posture/
+	install -m 644 praya/services/posture/calibration.py $(CURDIR)/debian/praya-service/usr/share/praya/praya/services/posture/
 
 	# Install requirements
-	install -m 644 requirements.txt $(CURDIR)/debian/praya-posture/usr/share/praya/
+	install -m 644 requirements.txt $(CURDIR)/debian/praya-service/usr/share/praya/
 
 	# Install launcher script
-	install -m 755 debian/praya-posture.sh $(CURDIR)/debian/praya-posture/usr/bin/praya-posture
+	install -m 755 debian/praya-service.sh $(CURDIR)/debian/praya-service/usr/bin/praya-service
 
 	# Install systemd user service
-	install -m 644 debian/praya-posture.service $(CURDIR)/debian/praya-posture/usr/lib/systemd/user/
+	install -m 644 debian/praya.service $(CURDIR)/debian/praya-service/usr/lib/systemd/user/
+
+	# Install D-Bus service file for auto-activation
+	install -m 644 debian/com.github.blankon.praya.service $(CURDIR)/debian/praya-service/usr/share/dbus-1/services/
 
 	# Install desktop file
-	install -m 644 debian/praya-posture.desktop $(CURDIR)/debian/praya-posture/usr/share/applications/
+	install -m 644 debian/praya.desktop $(CURDIR)/debian/praya-service/usr/share/applications/
 
 	# Install icon
-	install -m 644 debian/praya.svg $(CURDIR)/debian/praya-posture/usr/share/icons/hicolor/scalable/apps/praya-posture.svg
+	install -m 644 debian/praya.svg $(CURDIR)/debian/praya-service/usr/share/icons/hicolor/scalable/apps/
 
 override_dh_auto_build:
 	# Nothing to build

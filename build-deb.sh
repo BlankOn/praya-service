@@ -1,12 +1,12 @@
 #!/bin/bash
-# Build Debian package for Praya Posture Service
+# Build Debian package for Praya Service
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
-echo "Building Praya Posture Debian package..."
+echo "Building Praya Service Debian package..."
 
 # Check for build dependencies
 if ! command -v dpkg-buildpackage &> /dev/null; then
@@ -16,19 +16,19 @@ if ! command -v dpkg-buildpackage &> /dev/null; then
 fi
 
 # Clean previous builds
-rm -f ../praya-posture_*.deb ../praya-posture_*.changes ../praya-posture_*.buildinfo
-rm -rf debian/praya-posture debian/.debhelper debian/files
+rm -f ../praya-service_*.deb ../praya-service_*.changes ../praya-service_*.buildinfo
+rm -rf debian/praya-service debian/.debhelper debian/files
 
 # Build the package
 dpkg-buildpackage -us -uc -b
 
 # Move the built package
-mv ../praya-posture_*.deb ./ 2>/dev/null || true
+mv ../praya-service_*.deb ./ 2>/dev/null || true
 
 echo ""
 echo "Build complete!"
 echo ""
-ls -la praya-posture_*.deb 2>/dev/null || echo "Package built in parent directory"
+ls -la praya-service_*.deb 2>/dev/null || echo "Package built in parent directory"
 echo ""
-echo "Install with: sudo dpkg -i praya-posture_*.deb"
-echo "Or with dependencies: sudo apt install ./praya-posture_*.deb"
+echo "Install with: sudo dpkg -i praya-service_*.deb"
+echo "Or with dependencies: sudo apt install ./praya-service_*.deb"

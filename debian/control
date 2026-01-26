@@ -1,4 +1,4 @@
-Source: praya-posture
+Source: praya-service
 Section: utils
 Priority: optional
 Maintainer: Herpiko Dwi Aguno <herpiko@gmail.com>
@@ -7,7 +7,7 @@ Standards-Version: 4.6.0
 Homepage: https://github.com/herpiko/praya
 Rules-Requires-Root: no
 
-Package: praya-posture
+Package: praya-service
 Architecture: all
 Depends: ${misc:Depends},
          python3 (>= 3.10),
@@ -18,14 +18,16 @@ Depends: ${misc:Depends},
          gir1.2-gtk-4.0,
          gir1.2-adw-1,
          gir1.2-notify-0.7
-Description: Posture monitoring service for Praya
- Praya Posture monitors your posture using your webcam and sends
- desktop notifications when slouching is detected.
+Description: Praya wellness platform daemon
+ Praya is a modular wellness platform that provides various health
+ and productivity monitoring services.
  .
- Features:
-  - Real-time posture detection using MediaPipe
-  - Desktop notifications via D-Bus
-  - Configurable tolerance settings
-  - GNOME Shell extension support via D-Bus API
+ The daemon listens on D-Bus and manages feature services that can
+ be enabled/disabled via D-Bus commands.
  .
- This is part of the Praya modular wellness platform.
+ Available services:
+  - posture: Posture monitoring using webcam and pose detection
+ .
+ Features are activated via D-Bus, for example:
+  dbus-send --session --dest=com.github.praya \
+    /com/github/Praya com.github.Praya.EnableService string:'posture'
