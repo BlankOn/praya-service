@@ -1,0 +1,6 @@
+praya-posture (1.0.0-1) unstable; urgency=medium
+
+  * Initial release.
+  * Modular architecture for Praya wellness platform.
+
+ -- Herpiko Dwi Aguno <herpiko@gmail.com>  Sun, 26 Jan 2025 12:00:00 +0700

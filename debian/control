@@ -1,0 +1,31 @@
+Source: praya-posture
+Section: utils
+Priority: optional
+Maintainer: Herpiko Dwi Aguno <herpiko@gmail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.0
+Homepage: https://github.com/herpiko/praya
+Rules-Requires-Root: no
+
+Package: praya-posture
+Architecture: all
+Depends: ${misc:Depends},
+         python3 (>= 3.10),
+         python3-venv,
+         python3-pip,
+         python3-gi,
+         python3-gi-cairo,
+         gir1.2-gtk-4.0,
+         gir1.2-adw-1,
+         gir1.2-notify-0.7
+Description: Posture monitoring service for Praya
+ Praya Posture monitors your posture using your webcam and sends
+ desktop notifications when slouching is detected.
+ .
+ Features:
+  - Real-time posture detection using MediaPipe
+  - Desktop notifications via D-Bus
+  - Configurable tolerance settings
+  - GNOME Shell extension support via D-Bus API
+ .
+ This is part of the Praya modular wellness platform.
