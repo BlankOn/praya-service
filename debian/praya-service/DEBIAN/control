@@ -1,0 +1,22 @@
+Package: praya-service
+Version: 1.0.8-1
+Architecture: all
+Maintainer: Herpiko Dwi Aguno <herpiko@gmail.com>
+Installed-Size: 98
+Depends: init-system-helpers (>= 1.52), python3 (>= 3.10), python3-venv, python3-pip, python3-gi, python3-gi-cairo, gir1.2-gtk-4.0, gir1.2-adw-1, gir1.2-notify-0.7
+Section: utils
+Priority: optional
+Homepage: https://github.com/herpiko/praya
+Description: Praya wellness platform daemon
+ Praya is a modular wellness platform that provides various health
+ and productivity monitoring services.
+ .
+ The daemon listens on D-Bus and manages feature services that can
+ be enabled/disabled via D-Bus commands.
+ .
+ Available services:
+  - posture: Posture monitoring using webcam and pose detection
+ .
+ Features are activated via D-Bus, for example:
+  dbus-send --session --dest=com.github.praya \
+    /com/github/Praya com.github.Praya.EnableService string:'posture'

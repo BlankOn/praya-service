@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="60" fill="#3584e4"/>
+
+  <!-- Person silhouette with good posture -->
+  <g fill="#ffffff">
+    <!-- Head -->
+    <circle cx="64" cy="32" r="12"/>
+
+    <!-- Body (straight spine) -->
+    <rect x="60" y="44" width="8" height="40" rx="4"/>
+
+    <!-- Shoulders -->
+    <rect x="40" y="48" width="48" height="6" rx="3"/>
+
+    <!-- Arms -->
+    <rect x="38" y="48" width="6" height="24" rx="3"/>
+    <rect x="84" y="48" width="6" height="24" rx="3"/>
+
+    <!-- Legs -->
+    <rect x="52" y="84" width="8" height="28" rx="4"/>
+    <rect x="68" y="84" width="8" height="28" rx="4"/>
+  </g>
+
+  <!-- Checkmark indicator -->
+  <circle cx="100" cy="100" r="18" fill="#2ec27e"/>
+  <path d="M92 100 L98 106 L110 92" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

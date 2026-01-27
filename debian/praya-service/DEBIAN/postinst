@@ -1,0 +1,55 @@
+#!/bin/bash
+set -e
+
+case "$1" in
+    configure)
+        # Update icon cache
+        if command -v gtk-update-icon-cache &> /dev/null; then
+            gtk-update-icon-cache -f -t /usr/share/icons/hicolor 2>/dev/null || true
+        fi
+
+        # Update desktop database
+        if command -v update-desktop-database &> /dev/null; then
+            update-desktop-database /usr/share/applications 2>/dev/null || true
+        fi
+
+        echo ""
+        echo "Praya Service installed successfully!"
+        echo ""
+        echo "To start the daemon:"
+        echo "  praya-service                        # Run directly"
+        echo "  systemctl --user start praya         # Start as service"
+        echo "  systemctl --user enable praya        # Enable on login"
+        echo ""
+        echo "To enable features via D-Bus:"
+        echo "  dbus-send --session --dest=com.github.blankon.praya \\"
+        echo "    /com/github/blankon/Praya com.github.blankon.Praya.EnableService \\"
+        echo "    string:'posture'"
+        echo ""
+        echo "Note: First run will download AI models (~30MB)."
+        echo ""
+        ;;
+esac
+
+# Automatically added by dh_installsystemduser/13.29
+if [ "$1" = "configure" ] || [ "$1" = "abort-upgrade" ] || [ "$1" = "abort-deconfigure" ] || [ "$1" = "abort-remove" ] ; then
+	if [ -z "$DPKG_ROOT" ] ; then
+		# The following line should be removed in trixie or trixie+1
+		deb-systemd-helper --user unmask 'praya.service' >/dev/null || true
+
+		# was-enabled defaults to true, so new installations run enable.
+		if deb-systemd-helper --quiet --user was-enabled 'praya.service' ; then
+			# Enables the unit on first installation, creates new
+			# symlinks on upgrades if the unit file has changed.
+			deb-systemd-helper --user enable 'praya.service' >/dev/null || true
+		else
+			# Update the statefile to add new symlinks (if any), which need to be
+			# cleaned up on purge. Also remove old symlinks.
+			deb-systemd-helper --user update-state 'praya.service' >/dev/null || true
+		fi
+	fi
+fi
+# End automatically added section
+
+
+exit 0
