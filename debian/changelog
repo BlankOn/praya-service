@@ -1,3 +1,9 @@
+praya-service (1.0.9-1) verbeek; urgency=medium
+
+  *
+
+ -- Herpiko Dwi Aguno <herpiko@gmail.com>  Mon, 27 Jan 2026 13:00:00 +0700
+
 praya-service (1.0.8-1) verbeek; urgency=medium
 
   * Fix systemd service for Wayland/GTK display access.
