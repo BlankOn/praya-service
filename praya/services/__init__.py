@@ -3,6 +3,7 @@
 # Service registry - add new services here
 AVAILABLE_SERVICES = {
     "posture": "praya.services.posture",
+    "telemetry": "praya.services.telemetry",
 }
 
 
