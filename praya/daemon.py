@@ -14,7 +14,7 @@ from gi.repository import Adw, Gio, GLib
 from typing import Dict, Optional
 import sys
 
-from praya.services import AVAILABLE_SERVICES, get_service_module
+from praya.services import AVAILABLE_SERVICES, get_service_module, get_service_description
 
 
 def log(msg):
@@ -260,15 +260,10 @@ class PrayaDaemon(Adw.Application):
             return False
 
     def _list_services(self) -> list:
-        """List all available services."""
+        """List all available services without importing service modules."""
         services = []
-        for name, module_path in AVAILABLE_SERVICES.items():
-            try:
-                module = get_service_module(name)
-                description = module.get_service_description()
-            except Exception:
-                description = "Unknown"
-
+        for name in AVAILABLE_SERVICES:
+            description = get_service_description(name)
             enabled = name in self._active_services
             services.append((name, description, enabled))
 
