@@ -5,6 +5,7 @@ gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 
 from gi.repository import Gio, GLib
+from collections import deque
 from enum import Enum
 from typing import Optional, List
 import sys
@@ -72,8 +73,8 @@ class PostureService(DBusServiceMixin):
         self.away_frame_threshold = 15
         self.is_currently_slouching = False
 
-        self.nose_y_history: List[float] = []
         self.smoothing_window = 5
+        self.nose_y_history: deque = deque(maxlen=self.smoothing_window)
 
         # Alert delay tracking
         self.slouch_start_time: Optional[float] = None
@@ -277,8 +278,6 @@ class PostureService(DBusServiceMixin):
     def _smooth_nose_y(self, raw_y: float) -> float:
         """Smooth nose Y position using moving average."""
         self.nose_y_history.append(raw_y)
-        if len(self.nose_y_history) > self.smoothing_window:
-            self.nose_y_history.pop(0)
         return sum(self.nose_y_history) / len(self.nose_y_history)
 
     def _evaluate_posture(self, current_y: float):
@@ -370,22 +369,18 @@ class PostureService(DBusServiceMixin):
         self._send_extension_status("good", score)
 
     def _send_extension_status(self, status: str, score: float = 0.0):
-        """Send posture status to GNOME extension via D-Bus."""
+        """Send posture status to GNOME extension via D-Bus signal."""
         log(f"[posture] Sending posture state to extension: {status}, score: {score:.2f}")
         try:
-            import subprocess
-            result = subprocess.run([
-                "dbus-send", "--session",
-                "--dest=com.github.blankon.praya",
+            connection = Gio.bus_get_sync(Gio.BusType.SESSION, None)
+            connection.emit_signal(
+                None,
                 "/com/github/blankon/Praya",
-                "com.github.blankon.Praya.PostureServiceUserStatus",
-                f"string:{status}",
-                f"double:{score}"
-            ], capture_output=True, text=True)
-            if result.returncode == 0:
-                log(f"[posture] Extension notified: posture={status}, score={score:.2f}")
-            else:
-                log(f"[posture] Failed to notify extension: {result.stderr.strip()}")
+                "com.github.blankon.Praya",
+                "PostureServiceUserStatus",
+                GLib.Variant("(sd)", (status, score))
+            )
+            log(f"[posture] Extension notified: posture={status}, score={score:.2f}")
         except Exception as e:
             log(f"[posture] Error sending to extension: {e}")
 

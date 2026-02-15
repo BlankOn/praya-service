@@ -13,8 +13,10 @@ RestartSec=5
 # Note: Requires WAYLAND_DISPLAY and XDG_RUNTIME_DIR in systemd user environment
 # Run: systemctl --user import-environment WAYLAND_DISPLAY XDG_RUNTIME_DIR
 
-# Resource limits
-MemoryMax=512M
+# Resource limits – idle daemon uses ~80 MB (GTK + D-Bus only);
+# posture service with camera/ML adds ~300-400 MB on top.
+MemoryMax=768M
+MemoryHigh=512M
 CPUQuota=50%
 
 [Install]
