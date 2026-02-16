@@ -51,6 +51,19 @@ override_dh_auto_install:
 	# Install icon
 	install -m 644 debian/praya.svg $(CURDIR)/debian/praya-service/usr/share/icons/hicolor/scalable/apps/
 
+# Skip debhelper tools that cannot handle bundled .so files inside the venv
+override_dh_strip:
+	dh_strip --exclude=/usr/share/praya/venv/
+
+override_dh_dwz:
+	dh_dwz --exclude=/usr/share/praya/venv/
+
+override_dh_shlibdeps:
+	dh_shlibdeps --exclude=/usr/share/praya/venv/
+
+override_dh_makeshlibs:
+	dh_makeshlibs --exclude=/usr/share/praya/venv/
+
 override_dh_auto_build:
 	# Build Python virtual environment with all dependencies
 	python3 -m venv --system-site-packages $(CURDIR)/build/venv
