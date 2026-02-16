@@ -33,8 +33,8 @@ override_dh_auto_install:
 	install -m 644 praya/services/posture/camera.py $(CURDIR)/debian/praya-service/usr/share/praya/praya/services/posture/
 	install -m 644 praya/services/posture/calibration.py $(CURDIR)/debian/praya-service/usr/share/praya/praya/services/posture/
 
-	# Install requirements
-	install -m 644 requirements.txt $(CURDIR)/debian/praya-service/usr/share/praya/
+	# Install pre-built virtual environment
+	cp -a $(CURDIR)/build/venv $(CURDIR)/debian/praya-service/usr/share/praya/venv
 
 	# Install launcher script
 	install -m 755 debian/praya-service.sh $(CURDIR)/debian/praya-service/usr/bin/praya-service
@@ -52,4 +52,19 @@ override_dh_auto_install:
 	install -m 644 debian/praya.svg $(CURDIR)/debian/praya-service/usr/share/icons/hicolor/scalable/apps/
 
 override_dh_auto_build:
-	# Nothing to build
+	# Build Python virtual environment with all dependencies
+	python3 -m venv --system-site-packages $(CURDIR)/build/venv
+	$(CURDIR)/build/venv/bin/pip install --quiet --upgrade pip
+	$(CURDIR)/build/venv/bin/pip install --quiet -r requirements.txt
+	# Rewrite venv paths from build dir to final install location
+	sed -i "s|$(CURDIR)/build/venv|/usr/share/praya/venv|g" \
+		$(CURDIR)/build/venv/bin/activate \
+		$(CURDIR)/build/venv/bin/activate.csh \
+		$(CURDIR)/build/venv/bin/activate.fish \
+		$(CURDIR)/build/venv/pyvenv.cfg
+	# Fix shebangs in venv bin scripts to use /usr/bin/python3
+	for f in $(CURDIR)/build/venv/bin/*; do \
+		if head -1 "$$f" 2>/dev/null | grep -q "^#!.*$(CURDIR)"; then \
+			sed -i "1s|^#!.*|#!/usr/share/praya/venv/bin/python3|" "$$f"; \
+		fi; \
+	done
