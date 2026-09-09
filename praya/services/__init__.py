@@ -6,10 +6,6 @@ AVAILABLE_SERVICES = {
         "module": "praya.services.posture",
         "description": "Posture monitoring using camera and pose detection",
     },
-    "telemetry": {
-        "module": "praya.services.telemetry",
-        "description": "Daily device telemetry reporting",
-    },
 }
 
 

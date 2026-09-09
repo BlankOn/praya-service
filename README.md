@@ -10,7 +10,6 @@ Praya Service is a background program that provides services to Praya Desktop (h
 
 ## To Do
 
-- Telemetry
 - Live Caption to help impaired hearing disability users.
 - LLM Router to support AI chat.
 - MCP servers for LLM.
