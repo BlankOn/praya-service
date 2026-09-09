@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=com.github.blankon.praya
-Exec=/usr/bin/praya-service

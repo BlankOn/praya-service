@@ -1,1 +1,16 @@
 __pycache__/
+
+# Debian build artifacts
+build/
+debian/.debhelper/
+debian/praya-service/
+debian/files
+debian/debhelper-build-stamp
+debian/*.substvars
+debian/*.debhelper
+debian/*.log
+*.deb
+*.buildinfo
+*.changes
+*.dsc
+*.tar.xz
