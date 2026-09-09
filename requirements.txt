@@ -1,3 +1,7 @@
+# PyGObject/pycairo are intentionally absent: they are provided by the
+# python3-gi and python3-gi-cairo system packages (see debian/control), and
+# the venv is created with --system-site-packages. Installing them from pip
+# would compile against headers the build chroot does not have, and would not
+# supply the gir1.2-* typelibs the daemon needs at runtime.
 opencv-python>=4.8.0
 mediapipe>=0.10.0
-PyGObject>=3.42.0

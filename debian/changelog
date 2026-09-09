@@ -3,6 +3,12 @@ praya-service (1.4.0-1) sinambung; urgency=medium
   * Remove the telemetry service and its daily device information reporting.
   * Drop telemetry from the service registry so it can no longer be enabled
     over D-Bus.
+  * Do not install PyGObject from pip; use the python3-gi system package via
+    the venv's --system-site-packages. Fixes the build in a minimal chroot,
+    where pip tried to compile PyGObject and failed on missing pkg-config
+    and cairo headers.
+  * Stop tracking generated Debian build artifacts, which made dpkg-genchanges
+    reference a stale 1.0.8 buildinfo.
 
  -- Herpiko Dwi Aguno <herpiko@gmail.com>  Wed, 09 Sep 2026 13:00:00 +0700
 
