@@ -2,6 +2,7 @@
 Description=Praya Service Daemon - Wellness platform
 Documentation=https://github.com/herpiko/praya
 After=graphical-session.target
+After=gnome-session.target
 PartOf=graphical-session.target
 
 [Service]
@@ -10,8 +11,11 @@ ExecStart=/usr/bin/praya-service
 Restart=on-failure
 RestartSec=5
 
-# Note: Requires WAYLAND_DISPLAY and XDG_RUNTIME_DIR in systemd user environment
-# Run: systemctl --user import-environment WAYLAND_DISPLAY XDG_RUNTIME_DIR
+# DISPLAY, WAYLAND_DISPLAY and XDG_RUNTIME_DIR must be present in the user
+# manager environment before this service starts. The gnome-session.target
+# ordering above guarantees that. Starting earlier makes xdg-desktop-portal
+# fall back to the GTK backend with an empty DISPLAY, which blocks app launches
+# for roughly two minutes after login (see issue #4).
 
 # Resource limits – idle daemon uses ~80 MB (GTK + D-Bus only);
 # posture service with camera/ML adds ~300-400 MB on top.
